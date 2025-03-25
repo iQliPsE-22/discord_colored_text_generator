@@ -1,103 +1,238 @@
-import Image from "next/image";
+"use client";
+import { Container, Title, Group, Stack, Button, Box } from "@mantine/core";
+import { useState, useRef, useEffect } from "react";
+import Headline from "./components/Headline";
+import About from "./components/About";
+
+const styles = `
+  .ansi-editor {
+    margin-top: 20px;
+    width: 18cm;
+    min-height: 8cm;
+    background-color: #1e1e1e;
+    color: white;
+    border: 1px solid #333;
+    padding: 10px;
+    outline: none;
+    white-space: pre-wrap;
+    font-family: monospace;
+    font-size: 0.9rem;
+    line-height: 1.5;
+  }
+  .ansi-0{ color: #fff !important; font-weight: 400 !important; text-decoration: none !important;background-color: #000 !important; }
+  .ansi-1 { font-weight: 700 !important; }
+  .ansi-4 { text-decoration: underline !important; }
+
+  .ansi-30 { color: #4f545c !important; }
+  .ansi-31 { color: #dc322f !important; }
+  .ansi-32 { color: #859900 !important; }
+  .ansi-33 { color: #b58900 !important; }
+  .ansi-34 { color: #268bd2 !important; }
+  .ansi-35 { color: #d33682 !important; }
+  .ansi-36 { color: #2aa198 !important; }
+  .ansi-37 { color: #ffffff !important; }
+  
+  .ansi-40 { background-color: #002b36 !important; }
+  .ansi-41 { background-color: #cb4b16 !important; }
+  .ansi-42 { background-color: #586e75 !important; }
+  .ansi-43 { background-color: #657b83 !important; }
+  .ansi-44 { background-color: #839496 !important; }
+  .ansi-45 { background-color: #6c71c4 !important; }
+  .ansi-46 { background-color: #93a1a1 !important; }
+  .ansi-47 { background-color: #fdf6e3 !important; }
+
+  .fg-swatch {
+    width: 32px;
+    height: 32px;
+    border-radius: 4px;
+    cursor: pointer;
+    border: 1px solid #555 !important;
+  }
+
+  .fg-swatch-30 { background-color: #4f545c; }
+  .fg-swatch-31 { background-color: #dc322f; }
+  .fg-swatch-32 { background-color: #859900; }
+  .fg-swatch-33 { background-color: #b58900; }
+  .fg-swatch-34 { background-color: #268bd2; }
+  .fg-swatch-35 { background-color: #d33682; }
+  .fg-swatch-36 { background-color: #2aa198; }
+  .fg-swatch-37 { background-color: #ffffff; }
+
+  .bg-swatch-40 { background-color: #002b36; }
+  .bg-swatch-41 { background-color: #cb4b16; }
+  .bg-swatch-42 { background-color: #586e75; }
+  .bg-swatch-43 { background-color: #657b83; }
+  .bg-swatch-44 { background-color: #839496; }
+  .bg-swatch-45 { background-color: #6c71c4; }
+  .bg-swatch-46 { background-color: #93a1a1; }
+  .bg-swatch-47 { background-color: #fdf6e3; }
+`;
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              app/page.js
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+  const contentRef = useRef(null);
+  const [copyCount, setCopyCount] = useState(0);
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+  useEffect(() => {
+    if (contentRef.current) {
+      contentRef.current.innerHTML = "hello";
+    }
+  }, []);
+
+  const applyANSI = (code) => {
+    const selection = window.getSelection();
+    if (code === "0") {
+      // Reset entire content to plain text
+      const content = contentRef.current;
+      content.innerHTML = content.textContent;
+      return;
+    }
+    if (!selection.rangeCount) return;
+
+    const range = selection.getRangeAt(0);
+
+    const span = document.createElement("span");
+    span.className = `ansi-${code}`;
+
+    try {
+      range.surroundContents(span);
+    } catch (e) {
+      const text = document.createTextNode(selection.toString());
+      span.appendChild(text);
+      range.insertNode(span);
+    }
+
+    window.getSelection().removeAllRanges();
+  };
+
+  const processNodes = (nodes) => {
+    let output = "";
+
+    const walker = (nodes) => {
+      Array.from(nodes).forEach((node) => {
+        if (node.nodeType === Node.TEXT_NODE) {
+          output += node.textContent;
+          return;
+        }
+
+        if (node.nodeName === "BR") {
+          output += "\n";
+          return;
+        }
+
+        const classes = node.className?.split(" ") || [];
+        const ansiCodes = classes
+          .filter((c) => c.startsWith("ansi-"))
+          .map((c) => parseInt(c.split("-")[1]));
+
+        if (ansiCodes.length > 0) {
+          output += `\x1b[${ansiCodes.join(";")}m`;
+        }
+
+        walker(node.childNodes);
+
+        if (ansiCodes.length > 0) {
+          output += `\x1b[0m`;
+        }
+      });
+    };
+
+    walker(nodes);
+    return output;
+  };
+
+  const copyStyledText = async () => {
+    try {
+      const content = processNodes(contentRef.current.childNodes);
+      const formattedText = `\`\`\`ansi\n${content}\n\`\`\``;
+
+      await navigator.clipboard.writeText(formattedText);
+      setCopyCount((prev) => Math.min(11, prev + 1));
+      setTimeout(() => setCopyCount(0), 2000);
+    } catch (err) {
+      alert("Copy failed, showing content instead:");
+      alert(formattedText);
+    }
+  };
+
+  const fgColors = [
+    { code: "31", color: "#dc322f" },
+    { code: "32", color: "#859900" },
+    { code: "33", color: "#b58900" },
+    { code: "34", color: "#268bd2" },
+    { code: "35", color: "#d33682" },
+    { code: "36", color: "#2aa198" },
+    { code: "37", color: "#ffffff", textColor: "#000000" },
+  ];
+
+  const bgColors = [
+    { code: "40", color: "#002b36" },
+    { code: "41", color: "#cb4b16" },
+    { code: "42", color: "#586e75" },
+    { code: "43", color: "#657b83" },
+    { code: "45", color: "#6c71c4" },
+    { code: "46", color: "#93a1a1" },
+    { code: "47", color: "#fdf6e3", textColor: "#000000" },
+  ];
+
+  return (
+    <Container size="md" style={{ textAlign: "center", padding: "40px" }}>
+      <style>{styles}</style>
+      <Headline />
+      <About />
+
+      <Container
+        size="md"
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+        }}
+      >
+        <Group position="center" mt="lg">
+          <Button variant="filled" color="gray" onClick={() => applyANSI("0")}>
+            Reset All
+          </Button>
+          <Button variant="filled" color="gray" onClick={() => applyANSI("1")}>
+            Bold
+          </Button>
+          <Button variant="filled" color="gray" onClick={() => applyANSI("4")}>
+            Underline
+          </Button>
+        </Group>
+        <Group position="center" mt="lg">
+          <Title order={3}> FG </Title>
+          {fgColors.map(({ code, color, textColor }) => (
+            <Button
+              key={code}
+              variant="filled"
+              style={{ backgroundColor: color, color: textColor || "#ffffff" }}
+              onClick={() => applyANSI(code)}
+            ></Button>
+          ))}
+        </Group>
+        <Group position="center" mt="lg">
+          <Title order={3}>BG </Title>
+          {bgColors.map(({ code, color, textColor }) => (
+            <Button
+              key={code}
+              variant="filled"
+              style={{ backgroundColor: color, color: textColor || "#ffffff" }}
+              onClick={() => applyANSI(code)}
+            ></Button>
+          ))}
+        </Group>
+
+        <div
+          ref={contentRef}
+          contentEditable
+          suppressContentEditableWarning
+          className="ansi-editor"
+        />
+
+        <Button mt="lg" onClick={copyStyledText}>
+          Copy to Clipboard
+        </Button>
+      </Container>
+    </Container>
   );
 }
