@@ -1,37 +1,32 @@
-iQlipse's Discord Colored Text Generator
+# iQlipse's Discord Colored Text Generator
 
-About
+## About
+This is a simple web application that allows users to create colored Discord messages using ANSI color codes. The latest versions of Discord (desktop) support these codes, enabling users to enhance their messages with custom foreground and background colors.
 
-VideoDubber's Discord Colored Text Generator is a simple web app that allows you to create colored Discord messages using ANSI color codes. These colors work on the latest Discord desktop versions, making your messages stand out with vibrant formatting.
+## Features
+- **Text Editing:** Type and modify your text directly within the editor.
+- **Color Selection:** Apply foreground (text) and background colors to selected portions of your text.
+- **Formatting Options:** Supports bold, underline, and other basic formatting.
+- **Copy & Paste Support:** Easily copy the generated message and send it in Discord while maintaining the formatting.
 
-Features
+## How to Use
+1. Type your message in the editor.
+2. Select the text you want to style.
+3. Click on a foreground (FG) or background (BG) color to apply it.
+4. Copy the formatted text and paste it into Discord.
 
-🎨 Select and Apply Colors: Assign foreground and background colors to specific text segments.
+## Live Demo
+Try it out here: [Discord Colored Text Generator](https://discord-colored-text-generator-ivory.vercel.app/)
 
-📋 Copy Formatted Text: Copy the text with ANSI codes and paste it into Discord for color formatting.
+## Source Code
+This project is open-source! Check it out on GitHub:
+[GitHub Repository](https://github.com/iQliPsE-22/discord_colored_text_generator)
 
-🔄 Live Editing: Edit and preview the styled text in real time before copying.
+## Credits
+Special thanks to [kkrypt0nn](https://gist.github.com/kkrypt0nn/a02506f3712ff2d1c8ca7c9e0aed7c06) for the guide that inspired this project.
 
-⚡ Fast & Lightweight: Runs entirely in the browser without needing any external dependencies.
+## Contributing
+Feel free to fork the repository and submit pull requests to improve the application!
 
-How to Use
-
-Write Your Text: Type your desired message into the editable text box.
-
-Select Text: Highlight the portion of text you want to style.
-
-Choose a Color: Click on a foreground (FG) or background (BG) color from the available palette.
-
-Copy & Paste: Click the "Copy" button and paste it directly into Discord.
-
-Demo
-
-Try out the live version of the app here: Discord Colored Text Generator
-
-Credits
-
-This project was inspired by kkrypt0nn's guide, which explains how ANSI color codes work in Discord.
-
-License
-
-This project is open-source and available under the MIT License. Feel free to use, modify, and contribute!
+## License
+This project is licensed under the MIT License - see the LICENSE file for details.
